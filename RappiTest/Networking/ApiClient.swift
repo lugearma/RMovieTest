@@ -10,13 +10,17 @@ import Foundation
 
 enum ApiClientError: LocalizedError {
   case unknown
+  case network
 }
 
 protocol ApiClientProtocol {
-  func getPopularMovies(_ completion: @escaping (Result<MovieRequest>) -> Void)
+  func requestPopularMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void)
+  func requestTopRatedMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void)
+  func requestUpcomingMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void)
 }
 
 extension ApiClientProtocol {
+  
   func defaultRequest<T: Codable>(_ urlRequest: ApiClientRouter, _ completion: @escaping (Result<T>) -> Void) {
     guard let request = try? urlRequest.asURLRequest() else {
       completion(Result { throw ApiClientError.unknown })
@@ -37,16 +41,19 @@ extension ApiClientProtocol {
 
 final class APIClient: ApiClientProtocol {
   
-  
-  func getPopularMovies(_ completion: @escaping (Result<MovieRequest>) -> Void) {
-    #warning("Abstract parameters if needed")
-    let parameters: [String: Any] = ["language": "en-US", "page": 1]
+  func requestPopularMovies(_ page: Int = 1, _ completion: @escaping (Result<MovieRequest>) -> Void) {
+    let parameters: [String: Any] = ["page": page]
     defaultRequest(ApiClientRouter.popularMovies(parameters: parameters), completion)
   }
   
-//  func getCategories(_ completion: @escaping (Result<Category>) -> Void) {
-//    let parameters: [String: Any] = ["rows": 0, "facet": "theme", "timezone": "America/Mexico_City"]
-//    defaultRequest(ApiClientRouter.categories(parameters: parameters), completion)
-//  }
+  func requestTopRatedMovies(_ page: Int = 1, _ completion: @escaping (Result<MovieRequest>) -> Void) {
+    let parameters: [String: Any] = ["page": page]
+    defaultRequest(ApiClientRouter.topRatedMovies(parameters: parameters), completion)
+  }
+  
+  func requestUpcomingMovies(_ page: Int = 1, _ completion: @escaping (Result<MovieRequest>) -> Void) {
+    let parameters: [String: Any] = ["page": page]
+    defaultRequest(ApiClientRouter.upcomingMovies(parameters: parameters), completion)
+  }
 }
 

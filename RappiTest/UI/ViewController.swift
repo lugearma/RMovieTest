@@ -13,8 +13,8 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let apiClient = APIClient()
-    apiClient.getPopularMovies { result in
+    let apiClient = MovieService(apiClient: APIClient())
+    apiClient.moviesBy(.popular) { result in
       switch result {
       case .failure(let error):
         print(error)

@@ -18,7 +18,7 @@ enum ApiClientRouter {
 
 extension ApiClientRouter {
   
-  var APIKey: String {
+  private var APIKey: String {
     guard let APIKey = Bundle.main.object(forInfoDictionaryKey: "API-Key") as? String else {
       preconditionFailure("Cannot get API-Key")
     }
@@ -26,7 +26,7 @@ extension ApiClientRouter {
     return APIKey
   }
   
-  var baseURLAsString: String {
+  private var baseURLAsString: String {
     guard let baseURL = Bundle.main.object(forInfoDictionaryKey: "BaseURL") as? String else {
       preconditionFailure("Cannot get BaseURL")
     }
@@ -34,7 +34,7 @@ extension ApiClientRouter {
     return baseURL
   }
   
-  var APIVersion: Int {
+  private var APIVersion: Int {
     guard let APIVersion = Bundle.main.object(forInfoDictionaryKey: "API-Version") as? Int else {
       preconditionFailure("Cannot get API-Version")
     }
@@ -42,29 +42,41 @@ extension ApiClientRouter {
     return APIVersion
   }
   
+  private var path: (path: String, parameters: [String: Any]) {
+    switch self {
+    case .popularMovies(let parameters):
+      return ("/\(APIVersion)/movie/popular", parameters)
+    case .topRatedMovies(let parameters):
+      return ("/\(APIVersion)/movie/top_rated", parameters)
+    case .upcomingMovies(let parameters):
+      return ("/\(APIVersion)/movie/upcoming", parameters)
+    }
+  }
+  
   func asURLRequest() throws -> URLRequest {
-    let result: (path: String, parameters: [String: Any]) = {
-      switch self {
-      case .popularMovies(let parameters):
-        #warning("Check way to remove hard coded string")
-        return ("/\(APIVersion)/movie/popular", parameters)
-      case .topRatedMovies(let parameters):
-        return ("/\(APIVersion)/movie/popular", parameters)
-      case .upcomingMovies(let parameters):
-        return ("/\(APIVersion)/movie/popular", parameters)
-      }
-    }()
-    
     let baseURL = URL(string: baseURLAsString)
-    let urlAppendedPath = baseURL?.appendingPathComponent(result.path)
-    var components = URLComponents(url: urlAppendedPath!, resolvingAgainstBaseURL: true)
-    components?.queryItems = result.parameters.map { URLQueryItem(name: $0, value: String(describing: $1))}
-    components?.queryItems?.append(URLQueryItem(name: "api_key", value: APIKey))
-    guard let url = components?.url else {
+    let urlAppendedPath = baseURL?.appendingPathComponent(path.path)
+    let components = buildURLComponents(urlAppendedPath, withParameters: path.parameters)
+    
+    guard let url = components.url else {
       preconditionFailure("Cannot get URL")
     }
+    
     let urlRequest = URLRequest(url: url)
     return urlRequest
+  }
+  
+  private func buildURLComponents(_ url: URL?, withParameters parameters: Parameters) -> URLComponents {
+    var urlComponents = URLComponents(url: url!, resolvingAgainstBaseURL: true)
+    urlComponents?.queryItems = parameters.map { URLQueryItem(name: $0, value: String(describing: $1))}
+    urlComponents?.queryItems?.append(URLQueryItem(name: "api_key", value: APIKey))
+    urlComponents?.queryItems?.append(URLQueryItem(name: "language", value: "en-US"))
+    
+    guard let components = urlComponents else {
+      preconditionFailure("Cannot build components")
+    }
+    
+    return components
   }
 }
 
