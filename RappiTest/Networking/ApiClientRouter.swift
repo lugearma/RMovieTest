@@ -8,11 +8,24 @@
 
 import Foundation
 
+typealias Parameters = [String: Any]
+
 enum ApiClientRouter {
-  case categories(parameters: [String: Any])
+  case popularMovies(parameters: Parameters)
+  case topRatedMovies(parameters: Parameters)
+  case upcomingMovies(parameters: Parameters)
 }
 
 extension ApiClientRouter {
+  
+  var APIKey: String {
+    guard let APIKey = Bundle.main.object(forInfoDictionaryKey: "API-Key") as? String else {
+      preconditionFailure("Cannot get API-Key")
+    }
+    
+    return APIKey
+  }
+  
   var baseURLAsString: String {
     guard let baseURL = Bundle.main.object(forInfoDictionaryKey: "BaseURL") as? String else {
       preconditionFailure("Cannot get BaseURL")
@@ -21,12 +34,24 @@ extension ApiClientRouter {
     return baseURL
   }
   
+  var APIVersion: Int {
+    guard let APIVersion = Bundle.main.object(forInfoDictionaryKey: "API-Version") as? Int else {
+      preconditionFailure("Cannot get API-Version")
+    }
+    
+    return APIVersion
+  }
+  
   func asURLRequest() throws -> URLRequest {
     let result: (path: String, parameters: [String: Any]) = {
       switch self {
-      case .categories(let parameters):
+      case .popularMovies(let parameters):
         #warning("Check way to remove hard coded string")
-        return ("/api/datasets/1.0/search/", parameters)
+        return ("/\(APIVersion)/movie/popular", parameters)
+      case .topRatedMovies(let parameters):
+        return ("/\(APIVersion)/movie/popular", parameters)
+      case .upcomingMovies(let parameters):
+        return ("/\(APIVersion)/movie/popular", parameters)
       }
     }()
     
@@ -34,6 +59,7 @@ extension ApiClientRouter {
     let urlAppendedPath = baseURL?.appendingPathComponent(result.path)
     var components = URLComponents(url: urlAppendedPath!, resolvingAgainstBaseURL: true)
     components?.queryItems = result.parameters.map { URLQueryItem(name: $0, value: String(describing: $1))}
+    components?.queryItems?.append(URLQueryItem(name: "api_key", value: APIKey))
     guard let url = components?.url else {
       preconditionFailure("Cannot get URL")
     }

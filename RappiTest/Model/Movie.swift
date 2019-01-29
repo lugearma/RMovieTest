@@ -19,12 +19,15 @@ struct Movie: Codable {
   let posterPath: String?
   let language: String
   let originalTitle: String
-  #warning("Check this")
   let genreId: [Int]
   let backdropPath: String?
   let adult: Bool
   let overview: String
-  let releaseDate: Date
+  private let releaseDate: String
+  #warning("Format string to Date")
+  var date: Date {
+    return Date()
+  }
   
   enum CodingKeys: String, CodingKey {
     case voteCount = "vote_count"

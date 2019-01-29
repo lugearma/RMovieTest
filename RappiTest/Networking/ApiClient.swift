@@ -13,7 +13,7 @@ enum ApiClientError: LocalizedError {
 }
 
 protocol ApiClientProtocol {
-  func getCategories(_ completion: @escaping (Result<Movie>) -> Void)
+  func getPopularMovies(_ completion: @escaping (Result<MovieRequest>) -> Void)
 }
 
 extension ApiClientProtocol {
@@ -37,9 +37,16 @@ extension ApiClientProtocol {
 
 final class APIClient: ApiClientProtocol {
   
-  func getCategories(_ completion: @escaping (Result<Category>) -> Void) {
-    let parameters: [String: Any] = ["rows": 0, "facet": "theme", "timezone": "America/Mexico_City"]
-    defaultRequest(ApiClientRouter.categories(parameters: parameters), completion)
+  
+  func getPopularMovies(_ completion: @escaping (Result<MovieRequest>) -> Void) {
+    #warning("Abstract parameters if needed")
+    let parameters: [String: Any] = ["language": "en-US", "page": 1]
+    defaultRequest(ApiClientRouter.popularMovies(parameters: parameters), completion)
   }
+  
+//  func getCategories(_ completion: @escaping (Result<Category>) -> Void) {
+//    let parameters: [String: Any] = ["rows": 0, "facet": "theme", "timezone": "America/Mexico_City"]
+//    defaultRequest(ApiClientRouter.categories(parameters: parameters), completion)
+//  }
 }
 

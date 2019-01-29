@@ -12,7 +12,16 @@ class ViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    let apiClient = APIClient()
+    apiClient.getPopularMovies { result in
+      switch result {
+      case .failure(let error):
+        print(error)
+      case .success(let value):
+        print(value)
+      }
+    }
   }
 }
 
