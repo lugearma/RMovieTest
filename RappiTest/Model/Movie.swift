@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 struct Movie: Codable {
   
@@ -28,6 +29,7 @@ struct Movie: Codable {
   var date: Date {
     return Date()
   }
+  var posterImage: UIImage?
   
   enum CodingKeys: String, CodingKey {
     case voteCount = "vote_count"

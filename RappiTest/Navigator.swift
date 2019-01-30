@@ -48,7 +48,6 @@ class Navigator {
     case .movieDetail(let movie):
       let movieDetail = MovieDetailViewController(movie: movie)
       let navigationController = UINavigationController(rootViewController: movieDetail)
-      movieDetail.navigator = self
       tabViewController.present(navigationController, animated: true, completion: nil)
     }
   }

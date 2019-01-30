@@ -8,10 +8,12 @@
 
 import UIKit
 
-final class MovieDetailViewController: UIViewController, Navegable {
+final class MovieDetailViewController: UIViewController {
   
   let movie: Movie
-  var navigator: Navigator?
+  
+  @IBOutlet var posterImageView: UIImageView!
+  @IBOutlet var overviewTextView: UITextView!
   
   init(movie: Movie) {
     self.movie = movie
@@ -25,5 +27,12 @@ final class MovieDetailViewController: UIViewController, Navegable {
   override func viewDidLoad() {
     super.viewDidLoad()
     title = movie.title
+    navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissViewController))
+    overviewTextView.text = movie.overview
+    posterImageView.image = movie.posterImage
+  }
+  
+  @objc func dismissViewController() {
+    dismiss(animated: true, completion: nil)
   }
 }

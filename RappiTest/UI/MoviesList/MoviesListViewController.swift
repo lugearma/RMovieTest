@@ -11,7 +11,7 @@ import UIKit
 final class MoviesListViewController: UIViewController, Navegable {
   
   var movies: [Movie] = []
-  let viewModel: MoviesListViewModel!
+  let viewModel: MoviesListViewModel
   var navigator: Navigator?
   
   @IBOutlet var moviesTableView: UITableView!
@@ -19,7 +19,7 @@ final class MoviesListViewController: UIViewController, Navegable {
   init(viewModel: MoviesListViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
-    self.viewModel?.delegate = self
+    self.viewModel.delegate = self
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -28,7 +28,7 @@ final class MoviesListViewController: UIViewController, Navegable {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    viewModel?.getMoviesBy(clasification: .popular)
+    viewModel.getMoviesBy(clasification: .popular)
     setupTableView()
   }
   
@@ -76,7 +76,9 @@ extension MoviesListViewController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let movieSelected = movies[indexPath.row]
+    let selectedCell = tableView.cellForRow(at: indexPath) as! MovieCell
+    var movieSelected = movies[indexPath.row]
+    movieSelected.posterImage = selectedCell.moviePosterImageView.image
     navigator?.navigateTo(destination: .movieDetail(movieSelected))
   }
 }
