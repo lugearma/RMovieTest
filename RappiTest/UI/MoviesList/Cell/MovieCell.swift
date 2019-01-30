@@ -31,8 +31,7 @@ final class MovieCell: UITableViewCell {
   private func setupCell(_ movie: Movie) {
     movieTitleLabel.text = movie.title
     movieVoteAverageLabel.text = String(movie.voteAverage)
-    #warning("Set date as string")
-    movieReleaseDateLabel.text = String("")
+    movieReleaseDateLabel.text = movie.releaseDate
     cellViewModel?.getPosterImage()
   }
  

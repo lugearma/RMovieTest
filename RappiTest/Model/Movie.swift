@@ -24,10 +24,14 @@ struct Movie: Codable {
   let backdropPath: String?
   let adult: Bool
   let overview: String
-  private let releaseDate: String
-  #warning("Format string to Date")
+  let releaseDate: String
   var date: Date {
-    return Date()
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    guard let date = dateFormatter.date(from: releaseDate) else {
+      preconditionFailure("Take a look to your format")
+    }
+    return date
   }
   var posterImage: UIImage?
   
