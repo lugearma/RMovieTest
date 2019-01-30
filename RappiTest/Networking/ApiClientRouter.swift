@@ -14,6 +14,7 @@ enum ApiClientRouter {
   case popularMovies(parameters: Parameters)
   case topRatedMovies(parameters: Parameters)
   case upcomingMovies(parameters: Parameters)
+  case posterImage(path: String)
 }
 
 extension ApiClientRouter {
@@ -42,6 +43,14 @@ extension ApiClientRouter {
     return APIVersion
   }
   
+  private var imageURL: String {
+    guard let baseImageURL = Bundle.main.object(forInfoDictionaryKey: "BaseImageURL") as? String else {
+      preconditionFailure("Cannot get API-Version")
+    }
+    
+    return baseImageURL
+  }
+  
   private var path: (path: String, parameters: [String: Any]) {
     switch self {
     case .popularMovies(let parameters):
@@ -50,7 +59,17 @@ extension ApiClientRouter {
       return ("/\(APIVersion)/movie/top_rated", parameters)
     case .upcomingMovies(let parameters):
       return ("/\(APIVersion)/movie/upcoming", parameters)
+    case .posterImage(let path):
+      return (path, [:])
     }
+  }
+  
+  func urlForImage() -> URL {
+    let baseURL = URL(string: imageURL)
+    guard let url = baseURL?.appendingPathComponent(path.path) else {
+      preconditionFailure("Cannot get URL")
+    }
+    return url
   }
   
   func asURLRequest() throws -> URLRequest {

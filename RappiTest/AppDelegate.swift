@@ -17,22 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
+    guard let window = window else {
+      fatalError("No window")
+    }
+
+    let navigator = Navigator(window: window)
+    navigator.navigateTo(destination: .movieList)
     
-    let moviesViewController = MoviesListViewController()
-    let unomoviesViewController = MoviesListViewController()
-    let dosmoviesViewController = MoviesListViewController()
-    
-    let mainTabBar = UITabBarController()
-    moviesViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 0)
-    unomoviesViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 1)
-    dosmoviesViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 2)
-    
-    
-    
-    mainTabBar.viewControllers = [moviesViewController, unomoviesViewController, dosmoviesViewController]
-    
-    window?.rootViewController = mainTabBar
-    window?.makeKeyAndVisible()
     return true
   }
 

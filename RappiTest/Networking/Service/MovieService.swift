@@ -7,15 +7,15 @@
 //
 
 import Foundation
-
-#warning("Change this enum name")
-enum MovieClasification {
-  case popular
-  case topRated
-  case upcoming
-}
+import UIKit.UIImage
 
 final class MovieService {
+  
+  enum Section {
+    case popular
+    case topRated
+    case upcoming
+  }
   
   let apiClient: ApiClientProtocol
   
@@ -23,7 +23,7 @@ final class MovieService {
     self.apiClient = apiClient
   }
   
-  func moviesBy(_ clasification: MovieClasification, atPage page: Int = 1, _ completion: @escaping (Result<MovieRequest>) -> Void) {
+  func moviesBy(_ clasification: Section, atPage page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void) {
     switch clasification {
     case .popular:
       apiClient.requestPopularMovies(page, completion)
@@ -32,5 +32,9 @@ final class MovieService {
     case .upcoming:
       apiClient.requestUpcomingMovies(page, completion)
     }
+  }
+  
+  func posterImageForMovie(imagePath: String, _ completion: @escaping (Result<UIImage>) -> Void) -> URLSessionDataTask {
+    return apiClient.requestPosterImageWithPath(imagePath, completion)
   }
 }
