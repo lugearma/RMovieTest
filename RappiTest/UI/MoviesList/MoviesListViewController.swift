@@ -91,4 +91,8 @@ extension MoviesListViewController: MoviesListDelegate {
     self.movies += movies
     moviesTableView.reloadData()
   }
+  
+  func didThrow(_ error: Error) {
+    print("Present Alert")
+  }
 }

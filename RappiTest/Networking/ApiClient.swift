@@ -15,9 +15,7 @@ enum ApiClientError: LocalizedError {
 }
 
 protocol ApiClientProtocol {
-  func requestPopularMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void)
-  func requestTopRatedMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void)
-  func requestUpcomingMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void)
+  func requestMovies(for section: MovieService.Section, atPage page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void)
   func requestPosterImageWithPath(_ path: String, _ completion: @escaping (Result<UIImage>) -> Void) -> URLSessionDataTask
 }
 
@@ -46,35 +44,20 @@ extension ApiClientProtocol {
 
 final class ApiClient: ApiClientProtocol {
   
-  func requestPopularMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void) {
+  func requestMovies(for section: MovieService.Section, atPage page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void) {
     let parameters: [String: Any] = ["page": page]
-    defaultRequest(ApiClientRouter.popularMovies(parameters: parameters)) { (data, _, error) in
-      guard
-        error == nil,
-        let data = data else {
-          completion(Result { throw ApiClientError.network })
-          return
-      }
-      self.defaultJSONDecoder(data: data, completion)
+    let router: ApiClientRouter
+    
+    switch section {
+    case .popular:
+      router = .popularMovies(parameters: parameters)
+    case .topRated:
+      router = .topRatedMovies(parameters: parameters)
+    case .upcoming:
+      router = .upcomingMovies(parameters: parameters)
     }
-  }
-  
-  func requestTopRatedMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void) {
-    let parameters: [String: Any] = ["page": page]
-    defaultRequest(ApiClientRouter.topRatedMovies(parameters: parameters)) { (data, _, error) in
-      guard
-        error == nil,
-        let data = data else {
-          completion(Result { throw ApiClientError.network })
-          return
-      }
-      self.defaultJSONDecoder(data: data, completion)
-    }
-  }
-  
-  func requestUpcomingMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void) {
-    let parameters: [String: Any] = ["page": page]
-    defaultRequest(ApiClientRouter.upcomingMovies(parameters: parameters)) { (data, _, error) in
+    
+    defaultRequest(router) { (data, _, error) in
       guard
         error == nil,
         let data = data else {

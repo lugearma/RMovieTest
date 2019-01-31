@@ -10,6 +10,7 @@ import Foundation
 
 protocol MoviesListDelegate: class {
   func didReceiveMovies(_ movies: [Movie])
+  func didThrow(_ error: Error)
 }
 
 final class MoviesListViewModel {
@@ -28,8 +29,8 @@ final class MoviesListViewModel {
   func getMoviesBy(atPage page: Int = 1) {
     movieService.moviesBy(section, atPage: page) { result in
       switch result {
-      case .failure:
-        preconditionFailure("Present alert")
+      case .failure(let error):
+        self.delegate?.didThrow(error)
       case .success(let value):
         self.totalPages = value.totalPages
         DispatchQueue.main.async {
