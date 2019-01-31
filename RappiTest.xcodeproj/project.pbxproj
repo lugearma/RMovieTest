@@ -23,8 +23,6 @@
 		6FA0F38622022DA700368F3A /* MovieDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6FA0F38422022DA700368F3A /* MovieDetailViewController.xib */; };
 		6FA0F38722022DA700368F3A /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F38522022DA700368F3A /* MovieDetailViewController.swift */; };
 		6FA0F3892202313700368F3A /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F3882202313700368F3A /* Navigator.swift */; };
-		6FA0F38C2202516600368F3A /* Movie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F38A2202516600368F3A /* Movie+CoreDataClass.swift */; };
-		6FA0F38D2202516600368F3A /* Movie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F38B2202516600368F3A /* Movie+CoreDataProperties.swift */; };
 		9221A2892200DD3E00170330 /* MovieRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A2882200DD3E00170330 /* MovieRequest.swift */; };
 		9221A28C2200EDC100170330 /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A28B2200EDC100170330 /* MovieService.swift */; };
 		9221A290220119CB00170330 /* MoviesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A28E220119CB00170330 /* MoviesListViewController.swift */; };
@@ -74,8 +72,6 @@
 		6FA0F38422022DA700368F3A /* MovieDetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MovieDetailViewController.xib; sourceTree = "<group>"; };
 		6FA0F38522022DA700368F3A /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		6FA0F3882202313700368F3A /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
-		6FA0F38A2202516600368F3A /* Movie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataClass.swift"; sourceTree = "<group>"; };
-		6FA0F38B2202516600368F3A /* Movie+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9221A2882200DD3E00170330 /* MovieRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRequest.swift; sourceTree = "<group>"; };
 		9221A28B2200EDC100170330 /* MovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieService.swift; sourceTree = "<group>"; };
 		9221A28E220119CB00170330 /* MoviesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesListViewController.swift; sourceTree = "<group>"; };
@@ -232,8 +228,6 @@
 		6FA0F38F2202519200368F3A /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				6FA0F38A2202516600368F3A /* Movie+CoreDataClass.swift */,
-				6FA0F38B2202516600368F3A /* Movie+CoreDataProperties.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -404,7 +398,6 @@
 				6FA0F38722022DA700368F3A /* MovieDetailViewController.swift in Sources */,
 				6FA0F37522005F2500368F3A /* Result.swift in Sources */,
 				9221A29722011AE000170330 /* MovieCell.swift in Sources */,
-				6FA0F38D2202516600368F3A /* Movie+CoreDataProperties.swift in Sources */,
 				6FA0F37322005F0900368F3A /* ApiClientRouter.swift in Sources */,
 				6FA0F3892202313700368F3A /* Navigator.swift in Sources */,
 				6FA0F34721FFBF9F00368F3A /* RappiTest.xcdatamodeld in Sources */,
@@ -413,7 +406,6 @@
 				9221A28C2200EDC100170330 /* MovieService.swift in Sources */,
 				6FA0F37D220209FF00368F3A /* MovieCellViewModel.swift in Sources */,
 				9221A290220119CB00170330 /* MoviesListViewController.swift in Sources */,
-				6FA0F38C2202516600368F3A /* Movie+CoreDataClass.swift in Sources */,
 				9221A293220119E000170330 /* MoviesListViewModel.swift in Sources */,
 				6FA0F38022020B0600368F3A /* UITableView.swift in Sources */,
 				9221A2892200DD3E00170330 /* MovieRequest.swift in Sources */,

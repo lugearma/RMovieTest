@@ -29,7 +29,7 @@ struct Movie: Codable {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
     guard let date = dateFormatter.date(from: releaseDate) else {
-      preconditionFailure("Take a look to your format")
+      preconditionFailure("Wrong format")
     }
     return date
   }

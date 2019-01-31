@@ -83,6 +83,8 @@ extension MoviesListViewController: UITableViewDelegate {
   }
 }
 
+// MARK: - MoviesListDelegate
+
 extension MoviesListViewController: MoviesListDelegate {
   func didReceiveMovies(_ movies: [Movie]) {
     self.movies += movies
