@@ -24,22 +24,23 @@ protocol ApiClientProtocol {
 extension ApiClientProtocol {
   
   @discardableResult
-  func defaultRequest<T: Codable>(_ urlRequest: ApiClientRouter, _ completion: @escaping (Result<T>) -> Void) -> URLSessionDataTask? {
+  func defaultRequest(_ urlRequest: ApiClientRouter, _ completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
     guard let request = try? urlRequest.asURLRequest() else {
-      completion(Result { throw ApiClientError.unknown })
-      return nil
+      preconditionFailure("Cannot get request")
     }
     
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-      do {
-        let json = try JSONDecoder().decode(T.self, from: data!)
-        completion(Result { json })
-      } catch {
-        completion(Result { throw error })
-      }
-    }
+    let task = URLSession.shared.dataTask(with: request, completionHandler: completion)
     task.resume()
     return task
+  }
+  
+  func defaultJSONDecoder<T: Codable>(data: Data, _ completion: @escaping (Result<T>) -> Void) {
+    do {
+      let json = try JSONDecoder().decode(T.self, from: data)
+      completion(Result { json })
+    } catch {
+      completion(Result { throw error })
+    }
   }
 }
 
@@ -47,37 +48,54 @@ final class ApiClient: ApiClientProtocol {
   
   func requestPopularMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void) {
     let parameters: [String: Any] = ["page": page]
-    defaultRequest(ApiClientRouter.popularMovies(parameters: parameters), completion)
+    defaultRequest(ApiClientRouter.popularMovies(parameters: parameters)) { (data, _, error) in
+      guard
+        error != nil,
+        let data = data else {
+          completion(Result { throw ApiClientError.network })
+          return
+      }
+      self.defaultJSONDecoder(data: data, completion)
+    }
   }
   
   func requestTopRatedMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void) {
     let parameters: [String: Any] = ["page": page]
-    defaultRequest(ApiClientRouter.topRatedMovies(parameters: parameters), completion)
+    defaultRequest(ApiClientRouter.topRatedMovies(parameters: parameters)) { (data, _, error) in
+      guard
+        error != nil,
+        let data = data else {
+          completion(Result { throw ApiClientError.network })
+          return
+      }
+      self.defaultJSONDecoder(data: data, completion)
+    }
   }
   
   func requestUpcomingMovies(_ page: Int, _ completion: @escaping (Result<MovieRequest>) -> Void) {
     let parameters: [String: Any] = ["page": page]
-    defaultRequest(ApiClientRouter.upcomingMovies(parameters: parameters), completion)
+    defaultRequest(ApiClientRouter.upcomingMovies(parameters: parameters)) { (data, _, error) in
+      guard
+        error != nil,
+        let data = data else {
+          completion(Result { throw ApiClientError.network })
+          return
+      }
+      self.defaultJSONDecoder(data: data, completion)
+    }
   }
   
   func requestPosterImageWithPath(_ path: String, _ completion: @escaping (Result<UIImage>) -> Void) -> URLSessionDataTask {
-    guard let request = try? ApiClientRouter.posterImage(path: path).asURLRequest() else {
-      preconditionFailure("Cannot get request")
-    }
-    
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-      guard let data = data else {
-        completion(Result { throw ApiClientError.network })
-        return
-      }
-      
-      guard let image = UIImage(data: data) else {
+    return defaultRequest(ApiClientRouter.posterImage(path: path)) { (data, _, error) in
+      guard
+        error != nil,
+        let data = data,
+        let image = UIImage(data: data) else {
         completion(Result { UIImage(named: "placeholder")! })
         return
       }
+      
       completion(Result { image })
     }
-    task.resume()
-    return task
   }
 }
