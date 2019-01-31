@@ -61,8 +61,11 @@ final class ApiClient: ApiClientProtocol {
   }
   
   func requestPosterImageWithPath(_ path: String, _ completion: @escaping (Result<UIImage>) -> Void) -> URLSessionDataTask {
-    let url = ApiClientRouter.posterImage(path: path).urlForImage()
-    let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+    guard let request = try? ApiClientRouter.posterImage(path: path).asURLRequest() else {
+      preconditionFailure("Cannot get request")
+    }
+    
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
       guard let data = data else {
         completion(Result { throw ApiClientError.network })
         return

@@ -10,13 +10,6 @@ import Foundation
 
 typealias Parameters = [String: Any]
 
-enum ApiClientRouter {
-  case popularMovies(parameters: Parameters)
-  case topRatedMovies(parameters: Parameters)
-  case upcomingMovies(parameters: Parameters)
-  case posterImage(path: String)
-}
-
 enum ApiConstant: String {
   case apiKey = "API-Key"
   case baseURL = "BaseURL"
@@ -35,6 +28,13 @@ extension ApiConstant {
   }
 }
 
+enum ApiClientRouter {
+  case popularMovies(parameters: Parameters)
+  case topRatedMovies(parameters: Parameters)
+  case upcomingMovies(parameters: Parameters)
+  case posterImage(path: String)
+}
+
 extension ApiClientRouter {
   
   private var path: (path: String, parameters: [String: Any]) {
@@ -50,24 +50,23 @@ extension ApiClientRouter {
     }
   }
   
-  func urlForImage() -> URL {
-    let baseURL = URL(string: ApiConstant.baseImageURL.value)
-    guard let url = baseURL?.appendingPathComponent(path.path) else {
-      preconditionFailure("Cannot get URL")
-    }
-    return url
-  }
-  
   func asURLRequest() throws -> URLRequest {
-    let baseURL = URL(string: ApiConstant.baseURL.value)
-    let urlAppendedPath = baseURL?.appendingPathComponent(path.path)
-    let components = buildURLComponents(urlAppendedPath, withParameters: path.parameters)
-    
-    guard let url = components.url else {
-      preconditionFailure("Cannot get URL")
+    var url: URL?
+    switch self {
+    case .posterImage:
+      let baseURL = URL(string: ApiConstant.baseImageURL.value)
+      url = baseURL?.appendingPathComponent(path.path)
+    default:
+      let baseURL = URL(string: ApiConstant.baseURL.value)
+      let urlAppendedPath = baseURL?.appendingPathComponent(path.path)
+      let components = buildURLComponents(urlAppendedPath, withParameters: path.parameters)
+      url = components.url
     }
     
-    let urlRequest = URLRequest(url: url)
+    guard let URL = url else {
+      preconditionFailure("Cannot get url from \(String(describing: url))")
+    }
+    let urlRequest = URLRequest(url: URL)
     return urlRequest
   }
   
