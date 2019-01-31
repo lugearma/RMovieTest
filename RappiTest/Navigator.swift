@@ -33,11 +33,17 @@ class Navigator {
     switch destination {
     case .movieList:
       let movieService = MovieService(apiClient: apiClient)
-      let topRatedMoviesViewController = MoviesListViewController(viewModel: MoviesListViewModel(movieService: movieService))
+      
+      let topRatedViewModel = MoviesListViewModel(movieService: movieService, section: .topRated)
+      let topRatedMoviesViewController = MoviesListViewController(viewModel: topRatedViewModel)
       topRatedMoviesViewController.navigator = self
-      let popularMovieViewController = MoviesListViewController(viewModel: MoviesListViewModel(movieService: movieService))
+      
+      let popularMoviesViewModel = MoviesListViewModel(movieService: movieService, section: .popular)
+      let popularMovieViewController = MoviesListViewController(viewModel: popularMoviesViewModel)
       popularMovieViewController.navigator = self
-      let upcomingMoviesViewController = MoviesListViewController(viewModel: MoviesListViewModel(movieService: movieService))
+      
+      let upcomingMoviesViewModel = MoviesListViewModel(movieService: movieService, section: .upcoming)
+      let upcomingMoviesViewController = MoviesListViewController(viewModel: upcomingMoviesViewModel)
       upcomingMoviesViewController.navigator = self
       
       topRatedMoviesViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .topRated, tag: 0)

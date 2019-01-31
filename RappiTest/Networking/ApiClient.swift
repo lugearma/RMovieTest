@@ -34,9 +34,9 @@ extension ApiClientProtocol {
     return task
   }
   
-  func defaultJSONDecoder<T: Codable>(data: Data, _ completion: @escaping (Result<T>) -> Void) {
+  func defaultJSONDecoder<T: Codable>(data: Data?, _ completion: @escaping (Result<T>) -> Void) {
     do {
-      let json = try JSONDecoder().decode(T.self, from: data)
+      let json = try JSONDecoder().decode(T.self, from: data!)
       completion(Result { json })
     } catch {
       completion(Result { throw error })
@@ -50,7 +50,7 @@ final class ApiClient: ApiClientProtocol {
     let parameters: [String: Any] = ["page": page]
     defaultRequest(ApiClientRouter.popularMovies(parameters: parameters)) { (data, _, error) in
       guard
-        error != nil,
+        error == nil,
         let data = data else {
           completion(Result { throw ApiClientError.network })
           return
@@ -63,7 +63,7 @@ final class ApiClient: ApiClientProtocol {
     let parameters: [String: Any] = ["page": page]
     defaultRequest(ApiClientRouter.topRatedMovies(parameters: parameters)) { (data, _, error) in
       guard
-        error != nil,
+        error == nil,
         let data = data else {
           completion(Result { throw ApiClientError.network })
           return
@@ -76,7 +76,7 @@ final class ApiClient: ApiClientProtocol {
     let parameters: [String: Any] = ["page": page]
     defaultRequest(ApiClientRouter.upcomingMovies(parameters: parameters)) { (data, _, error) in
       guard
-        error != nil,
+        error == nil,
         let data = data else {
           completion(Result { throw ApiClientError.network })
           return
@@ -88,9 +88,9 @@ final class ApiClient: ApiClientProtocol {
   func requestPosterImageWithPath(_ path: String, _ completion: @escaping (Result<UIImage>) -> Void) -> URLSessionDataTask {
     return defaultRequest(ApiClientRouter.posterImage(path: path)) { (data, _, error) in
       guard
-        error != nil,
+        error == nil,
         let data = data,
-        let image = UIImage(data: data) else {
+      let image = UIImage(data: data) else {
         completion(Result { UIImage(named: "placeholder")! })
         return
       }

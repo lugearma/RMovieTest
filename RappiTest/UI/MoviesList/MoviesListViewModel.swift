@@ -18,14 +18,15 @@ final class MoviesListViewModel {
   weak var delegate: MoviesListDelegate?
   private var currentPage = 1
   private var totalPages = 0
-  private var clasification: MovieService.Section = .popular
+  private let section: MovieService.Section
   
-  init(movieService: MovieService) {
+  init(movieService: MovieService, section: MovieService.Section) {
     self.movieService = movieService
+    self.section = section
   }
   
-  func getMoviesBy(clasification: MovieService.Section, atPage page: Int = 1) {
-    movieService.moviesBy(clasification, atPage: page) { result in
+  func getMoviesBy(atPage page: Int = 1) {
+    movieService.moviesBy(section, atPage: page) { result in
       switch result {
       case .failure:
         preconditionFailure("Present alert")
@@ -41,7 +42,7 @@ final class MoviesListViewModel {
   func loadNextPage() {
     currentPage += 1
     if currentPage <= totalPages {
-      getMoviesBy(clasification: clasification, atPage: currentPage)
+      getMoviesBy(atPage: currentPage)
     }
   }
 }

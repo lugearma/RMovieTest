@@ -13,6 +13,7 @@ final class MoviesListViewController: UIViewController, Navegable {
   var movies: [Movie] = []
   let viewModel: MoviesListViewModel
   var navigator: Navigator?
+  var section: MovieService.Section = .popular
   
   @IBOutlet var moviesTableView: UITableView!
   
@@ -28,7 +29,7 @@ final class MoviesListViewController: UIViewController, Navegable {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    viewModel.getMoviesBy(clasification: .popular)
+    viewModel.getMoviesBy()
     setupTableView()
   }
   
