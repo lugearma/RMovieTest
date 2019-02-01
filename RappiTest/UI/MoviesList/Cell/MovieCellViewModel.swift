@@ -13,12 +13,12 @@ protocol MovieCellViewModelDelegate: class {
   func didReceivePosterImage(_ image: UIImage?)
 }
 
-class MovieCellViewModel {
+final class MovieCellViewModel {
   
   let movie: Movie
   let movieService: MovieService
   weak var delegate: MovieCellViewModelDelegate?
-  var dataTask: URLSessionDataTask?
+  private var dataTask: URLSessionDataTask?
   
   init(movie: Movie, movieService: MovieService) {
     self.movie = movie

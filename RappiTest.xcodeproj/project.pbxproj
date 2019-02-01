@@ -23,6 +23,13 @@
 		6FA0F38622022DA700368F3A /* MovieDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6FA0F38422022DA700368F3A /* MovieDetailViewController.xib */; };
 		6FA0F38722022DA700368F3A /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F38522022DA700368F3A /* MovieDetailViewController.swift */; };
 		6FA0F3892202313700368F3A /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F3882202313700368F3A /* Navigator.swift */; };
+		92116A852203C8BE0077ECCE /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F37022005EC400368F3A /* ApiClient.swift */; };
+		92116A862203C8C10077ECCE /* ApiClientRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F37222005F0900368F3A /* ApiClientRouter.swift */; };
+		92116A872203C8C40077ECCE /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F37422005F2500368F3A /* Result.swift */; };
+		92116A882203C8C70077ECCE /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A28B2200EDC100170330 /* MovieService.swift */; };
+		92116A892203C8CB0077ECCE /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA0F37A22005FBB00368F3A /* Movie.swift */; };
+		92116A8A2203C8CD0077ECCE /* MovieRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A2882200DD3E00170330 /* MovieRequest.swift */; };
+		92116A8C2203CCC30077ECCE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FA0F34821FFBFA100368F3A /* Assets.xcassets */; };
 		9221A2892200DD3E00170330 /* MovieRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A2882200DD3E00170330 /* MovieRequest.swift */; };
 		9221A28C2200EDC100170330 /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A28B2200EDC100170330 /* MovieService.swift */; };
 		9221A290220119CB00170330 /* MoviesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9221A28E220119CB00170330 /* MoviesListViewController.swift */; };
@@ -146,7 +153,7 @@
 		6FA0F35521FFBFA100368F3A /* RappiTestTests */ = {
 			isa = PBXGroup;
 			children = (
-				6FA0F35621FFBFA100368F3A /* RappiTestTests.swift */,
+				92116A8B2203CA9E0077ECCE /* ApiTest */,
 				6FA0F35821FFBFA100368F3A /* Info.plist */,
 			);
 			path = RappiTestTests;
@@ -230,6 +237,14 @@
 			children = (
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		92116A8B2203CA9E0077ECCE /* ApiTest */ = {
+			isa = PBXGroup;
+			children = (
+				6FA0F35621FFBFA100368F3A /* RappiTestTests.swift */,
+			);
+			path = ApiTest;
 			sourceTree = "<group>";
 		};
 		9221A28A2200EDA800170330 /* Service */ = {
@@ -377,6 +392,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92116A8C2203CCC30077ECCE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +434,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6FA0F35721FFBFA100368F3A /* RappiTestTests.swift in Sources */,
+				92116A852203C8BE0077ECCE /* ApiClient.swift in Sources */,
+				92116A892203C8CB0077ECCE /* Movie.swift in Sources */,
+				92116A872203C8C40077ECCE /* Result.swift in Sources */,
+				92116A862203C8C10077ECCE /* ApiClientRouter.swift in Sources */,
+				92116A8A2203C8CD0077ECCE /* MovieRequest.swift in Sources */,
+				92116A882203C8C70077ECCE /* MovieService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

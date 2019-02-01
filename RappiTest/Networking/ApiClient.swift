@@ -22,7 +22,7 @@ protocol ApiClientProtocol {
 extension ApiClientProtocol {
   
   @discardableResult
-  func defaultRequest(_ urlRequest: ApiClientRouter, _ completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+  fileprivate func defaultRequest(_ urlRequest: ApiClientRouter, _ completion: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
     guard let request = try? urlRequest.asURLRequest() else {
       preconditionFailure("Cannot get request")
     }
@@ -32,7 +32,7 @@ extension ApiClientProtocol {
     return task
   }
   
-  func defaultJSONDecoder<T: Codable>(data: Data?, _ completion: @escaping (Result<T>) -> Void) {
+  fileprivate func defaultJSONDecoder<T: Codable>(data: Data?, _ completion: @escaping (Result<T>) -> Void) {
     do {
       let json = try JSONDecoder().decode(T.self, from: data!)
       completion(Result { json })
