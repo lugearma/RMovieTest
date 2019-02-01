@@ -142,7 +142,6 @@
 				6FA0F37922005F8000368F3A /* Model */,
 				6FA0F36F22005EB600368F3A /* Networking */,
 				6FA0F37E22020AF300368F3A /* Extension */,
-				6FA0F38F2202519200368F3A /* Entities */,
 				6FA0F37822005F5A00368F3A /* Supporting */,
 				6FA0F34821FFBFA100368F3A /* Assets.xcassets */,
 				6FA0F34521FFBF9F00368F3A /* RappiTest.xcdatamodeld */,
@@ -230,13 +229,6 @@
 				6FA0F38522022DA700368F3A /* MovieDetailViewController.swift */,
 			);
 			path = MovieDetail;
-			sourceTree = "<group>";
-		};
-		6FA0F38F2202519200368F3A /* Entities */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Entities;
 			sourceTree = "<group>";
 		};
 		92116A8B2203CA9E0077ECCE /* ApiTest */ = {
